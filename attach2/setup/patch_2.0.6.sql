@@ -1,0 +1,1 @@
+ALTER TABLE `cot_attach` ADD COLUMN `att_lastmod` INT NOT NULL DEFAULT 0;

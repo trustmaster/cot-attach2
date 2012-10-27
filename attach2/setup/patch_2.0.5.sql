@@ -1,0 +1,1 @@
+ALTER TABLE `cot_attach` ADD COLUMN `att_order` SMALLINT NOT NULL DEFAULT 0;

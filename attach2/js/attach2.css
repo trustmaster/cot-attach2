@@ -1,0 +1,32 @@
+#attModal {width:770px;height:560px;}
+#attModalTitleText {font-size:12pt}
+#attModalClose {clear:right; float:right; padding:0 5px; cursor:pointer;}
+#attModalContent{ width:99%; height:90%; display: block; clear:both; margin:auto; margin-top:10px; background:#fff; border:1px dotted #444; z-index: 3000; }
+
+.attItem {
+	width: 100%;
+	float: left;
+}
+
+.attPreview {
+	width: 20%;
+	float: left;
+}
+
+.attForm {
+	width: 60%;
+	float: left;
+}
+
+.attButtons {
+	width: 20%;
+	float: left;
+}
+
+.qq-upload-button {
+	background: green;
+}
+
+.attDeleteButton {
+	background: red;
+}
