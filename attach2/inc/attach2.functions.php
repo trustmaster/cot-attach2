@@ -586,9 +586,33 @@ function att_inc_count($id)
 }
 
 /**
+ * Fetches a single attachment object for a given item.
+ * @param  string  $area   Target module/plugin code.
+ * @param  integer $item   Target item id.
+ * @param  string  $column Empty string to return full row, one of the following to return a single value: 'id', 'user', 'path', 'filename', 'ext', 'img', 'size', 'title', 'count' 
+ * @param  string  $mode   One of these values: 'first', 'rand' or 'last'. Defines which image is selected.
+ * @return mixed           Scalar column value, entire row as array or NULL if no attachments found.
+ */
+function att_get($area, $item, $column = '', $mode = 'first')
+{
+	global $db, $db_attach;
+	static $a_cache;
+	if (!isset($a_cache[$area][$item]))
+	{
+		$order_by = $mode == 'rand' ? 'RAND()' : 'att_order';
+		if ($mode == 'last') $order_by .= ' DESC';
+		$a_cache[$area][$item] = $db->query("SELECT * FROM $db_attach
+			WHERE att_area = ? AND att_item = ?
+			ORDER BY $order_by
+			LIMIT 1", array($area, (int)$item))->fetch();
+	}
+	return empty($column) ? $a_cache[$area][$item] : $a_cache[$area][$item]['att_' . $column];
+}
+
+/**
  * Returns attachment thumbnail path. Generates the thumbnail first if
  * it does not exist.
- * @param  integer $id     Attachment ID
+ * @param  mixed   $id     Attachment ID or a row returned by att_get() function.
  * @param  integer $width  Thumbnail width in pixels
  * @param  integer $height Thumbnail height in pixels
  * @param  string  $frame  Framing mode: 'width', 'height', 'auto' or 'crop'
@@ -597,6 +621,13 @@ function att_inc_count($id)
 function att_thumb($id, $width = 0, $height = 0, $frame = '')
 {
 	global $cfg, $db, $db_attach;
+
+	// Support rows fetched by att_get()
+	if (is_array($id))
+	{
+		$row = $id;
+		$id = $row['att_id'];
+	}
 
 	// Validate arguments
 	if (!is_numeric($id) || $id <= 0)
@@ -631,7 +662,10 @@ function att_thumb($id, $width = 0, $height = 0, $frame = '')
 	if (!$thumb_path || !file_exists($thumb_path))
 	{
 		// Generate a new thumbnail
-		$row = $db->query("SELECT * FROM $db_attach WHERE att_id = ?", array((int) $id))->fetch();
+		if (!isset($row))
+		{
+			$row = $db->query("SELECT * FROM $db_attach WHERE att_id = ?", array((int) $id))->fetch();
+		}
 		if (!$row || !$row['att_img'])
 		{
 			return false;
