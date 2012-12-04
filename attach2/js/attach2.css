@@ -1,4 +1,4 @@
-#attModal {width:770px;height:560px;}
+#attModal {display:none;position:absolute;width:770px;height:560px;}
 #attModalTitleText {font-size:12pt}
 #attModalClose {clear:right; float:right; padding:0 5px; cursor:pointer;}
 #attModalContent{ width:99%; height:90%; display: block; clear:both; margin:auto; margin-top:10px; background:#fff; border:1px dotted #444; z-index: 3000; }
