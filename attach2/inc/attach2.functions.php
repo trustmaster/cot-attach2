@@ -438,7 +438,6 @@ function att_remove_all($user_id = null, $area = null, $item_id = null)
 	{
 		$where = '1';
 	}
-	cot_watch($where);
 	// Remove files, thumbs and db records
 	$sql = $db->query("SELECT * FROM $db_attach WHERE $where");
 	$count = $sql->rowCount();
@@ -589,7 +588,7 @@ function att_inc_count($id)
  * Fetches a single attachment object for a given item.
  * @param  string  $area   Target module/plugin code.
  * @param  integer $item   Target item id.
- * @param  string  $column Empty string to return full row, one of the following to return a single value: 'id', 'user', 'path', 'filename', 'ext', 'img', 'size', 'title', 'count' 
+ * @param  string  $column Empty string to return full row, one of the following to return a single value: 'id', 'user', 'path', 'filename', 'ext', 'img', 'size', 'title', 'count'
  * @param  string  $mode   One of these values: 'first', 'rand' or 'last'. Defines which image is selected.
  * @return mixed           Scalar column value, entire row as array or NULL if no attachments found.
  */
