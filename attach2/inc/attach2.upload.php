@@ -248,9 +248,31 @@ function att_ajax_handle_file_upload($uploaded_file, $name, $size, $type, $error
 		$file_size = filesize($file_path);
 		if ($file_size === $file->size)
 		{
+			// Automatic JPG conversion feature
+			if ($cfg['plugin']['attach2']['imageconvert'] && $is_img && $file_ext != 'jpg' && $file_ext != 'jpeg')
+			{
+				$input_file = $file_path;
+				$output_file = att_path($area, $item, $id, 'jpg');
+				if ($file_ext == 'png')
+					$input = imagecreatefrompng($input_file);
+				else
+					$input = imagecreatefromgif($input_file);
+				list($width, $height) = getimagesize($input_file);
+				$output = imagecreatetruecolor($width, $height);
+				$white = imagecolorallocate($output,  255, 255, 255);
+				imagefilledrectangle($output, 0, 0, $width, $height, $white);
+				imagecopy($output, $input, 0, 0, 0, 0, $width, $height);
+				imagejpeg($output, $output_file);
+				$file_path = $output_file;
+				$file_size = filesize($output_file);
+				$file_ext = 'jpg';
+				$file->name = pathinfo($file->name, PATHINFO_FILENAME) . '.jpg';
+			}
 			$db->update($db_attach, array(
-				'att_path' => $file_path,
-				'att_size' => $file_size
+				'att_path'     => $file_path,
+				'att_size'     => $file_size,
+				'att_ext'      => $file_ext,
+				'att_filename' => $file->name
 			), "att_id = $id");
 			$file->url = $cfg['mainurl'] . '/' . $file_path;
 			$file->thumbnail_url = ($is_img) ? $cfg['mainurl'] . '/' . att_thumb($id) : $cfg['mainurl'] . '/' . att_icon($file_ext);
