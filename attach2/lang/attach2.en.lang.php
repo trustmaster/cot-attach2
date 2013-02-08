@@ -75,3 +75,4 @@ $L['cfg_filesize'] = 'Max file size in bytes';
 $L['cfg_filespace'] = 'Total file space per user';
 $L['cfg_imageconvert'] = 'Convert all images to JPG on upload';
 $L['cfg_autoupload'] = 'Start uploading automatically';
+$L['cfg_sequential'] = 'Sequential uploading instead of concurrent';

@@ -205,7 +205,8 @@ if (attConfig === undefined) {
         exts: $.map('{ATTACH_EXTS}'.split(','), $.trim),
         accept: '{ATTACH_ACCEPT}',
         maxsize: {ATTACH_MAXSIZE},
-        autoUpload: {PHP.cfg.plugin.attach2.autoupload}
+        autoUpload: {PHP.cfg.plugin.attach2.autoupload},
+        sequential: {PHP.cfg.plugin.attach2.sequential}
     };
     var attLang = {
         attachFiles: '{PHP.L.att_attach}',

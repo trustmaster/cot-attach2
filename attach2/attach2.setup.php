@@ -8,7 +8,7 @@ Code=attach2
 Name=Attachments
 Category=files-media
 Description=Attach files to posts and pages
-Version=2.1
+Version=2.1.1
 Date=2013-02-08
 Author=Trustmaster
 Copyright=(c) Vladimir Sibirov, Skuola.net and Seditio.By, 2008-2013
@@ -35,6 +35,7 @@ accept=10:text:::Accepted MIME types in file selection dialog, comma separated. 
 filesize=11:string::4194304:Max file size in bytes
 filespace=12:string::104857600:Total file space per user
 autoupload=21:radio::0:Start uploading automatically
+sequential=22:radio::0:Sequential uploading instead of concurrent
 imageconvert=41:radio::0:Convert all images to JPG on upload
 [END_COT_EXT_CONFIG]
 ==================== */

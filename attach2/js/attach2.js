@@ -7,7 +7,8 @@ $(function () {
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({
         url: $('#fileupload').attr('action'),
-        autoUpload: attConfig.autoUpload
+        autoUpload: attConfig.autoUpload,
+        sequentialUploads: attConfig.sequential
     });
 
     // Enable iframe cross-domain access via redirect option:
