@@ -31,11 +31,11 @@ switch ($_SERVER['REQUEST_METHOD'])
 			header('Content-type: application/json');
 			if ($id > 0)
 			{
-				return json_encode(att_remove($id));
+				echo json_encode(array('success' => (bool) att_remove($id)));
 			}
 			else
 			{
-				return json_encode(false);
+				echo json_encode(array('success' => false));
 			}
 		}
 		else
@@ -112,7 +112,7 @@ function att_ajax_get($area, $item, $filename = null)
 		}
 	}
 
-	return $files;
+	return array('files' => $files);
 }
 
 /**
@@ -163,7 +163,7 @@ function att_ajax_post()
 		);
 	}
 	header('Vary: Accept');
-	$json = json_encode($info);
+	$json = json_encode(array('files' => $info));
 	$redirect = isset($_REQUEST['redirect']) ?
 		stripslashes($_REQUEST['redirect']) : null;
 	if ($redirect)

@@ -5,7 +5,10 @@ $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload();
+    $('#fileupload').fileupload({
+        url: $('#fileupload').attr('action'),
+        autoUpload: attConfig.autoUpload
+    });
 
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
@@ -13,19 +16,29 @@ $(function () {
         'redirect',
         window.location.href.replace(
             /\/[^\/]*$/,
-            '/cors/result.html?%s'
+            'plugins/attach2/lib/upload/cors/result.html?%s'
         )
     );
 
     // Load existing files:
-    $('#fileupload').each(function () {
-        var that = this;
-        $.getJSON(this.action, function (result) {
-            if (result && result.length) {
-                $(that).fileupload('option', 'done')
-                    .call(that, null, {result: result});
-            }
-        });
+    // $('#fileupload').each(function () {
+    //     var that = this;
+    //     $.getJSON(this.action, function (result) {
+    //         if (result && result.length) {
+    //             $(that).fileupload('option', 'done')
+    //                 .call(that, null, {result: result});
+    //         }
+    //     });
+    // });
+    $.ajax({
+        // Uncomment the following to send cross-domain cookies:
+        //xhrFields: {withCredentials: true},
+        url: $('#fileupload').fileupload('option', 'url'),
+        dataType: 'json',
+        context: $('#fileupload')[0]
+    }).done(function (result) {
+        $(this).fileupload('option', 'done')
+            .call(this, null, {result: result});
     });
 
     if (window.FormData) {
@@ -57,7 +70,6 @@ $(function () {
             var input = document.getElementById("att-file"+id);
             var formdata = new FormData();
             if (input.files.length != 1) {
-                console.log(input.files.length);
                 return false;
             }
             var file = input.files[0];

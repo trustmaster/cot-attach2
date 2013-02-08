@@ -390,7 +390,7 @@ function att_remove($id)
 		}
 		$res &= @unlink($row['att_path']);
 		$res &= att_remove_thumbs($row['att_id']);
-		rmdir($cfg['plugin']['attach2']['folder'] . '/_thumbs/' . $id);
+		@rmdir($cfg['plugin']['attach2']['folder'] . '/_thumbs/' . $id);
 		$res &= $db->delete($db_attach, "att_id = ?", array((int) $id)) == 1;
 	}
 	else

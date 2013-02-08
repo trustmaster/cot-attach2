@@ -30,6 +30,8 @@
 <link rel="stylesheet" href="http://blueimp.github.com/Bootstrap-Image-Gallery/css/bootstrap-image-gallery.min.css">
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 <link rel="stylesheet" href="plugins/attach2/lib/upload/css/jquery.fileupload-ui.css">
+<!-- CSS adjustments for browsers with JavaScript disabled -->
+<noscript><link rel="stylesheet" href="plugins/attach2/lib/upload/css/jquery.fileupload-ui-noscript.css"></noscript>
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
@@ -118,7 +120,7 @@
             <td class="start">{% if (!o.options.autoUpload) { %}
                 <button class="btn btn-primary">
                     <i class="icon-upload icon-white"></i>
-                    <span>{PHP.L.att_start}</span>
+                    {PHP.L.att_start}
                 </button>
             {% } %}</td>
         {% } else { %}
@@ -127,9 +129,10 @@
         <td class="cancel">{% if (!i) { %}
             <button class="btn btn-warning">
                 <i class="icon-ban-circle icon-white"></i>
-                <span>{PHP.L.Cancel}</span>
+                {PHP.L.Cancel}
             </button>
         {% } %}</td>
+        <td>&nbsp;</td>
     </tr>
 {% } %}
 </script>
@@ -159,17 +162,19 @@
             <td>&nbsp;</td>
         {% } %}
         <td class="delete">
-            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                 <i class="icon-trash icon-white"></i>
-                <span>{PHP.L.Delete}</span>
+                {PHP.L.Delete}
             </button>
-            <input type="checkbox" name="delete" value="1"><br>
+            <input type="checkbox" name="delete" value="1">
+        </td>
+        <td>
             <button type="button" data-id="{%=file.id%}" class="btn btn-primary att-replace-button" style="display:none">{PHP.L.att_replace}</button>
         </td>
     </tr>
 {% } %}
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="plugins/attach2/lib/upload/js/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -199,7 +204,8 @@ if (attConfig === undefined) {
         item: {ATTACH_ITEM},
         exts: $.map('{ATTACH_EXTS}'.split(','), $.trim),
         accept: '{ATTACH_ACCEPT}',
-        maxsize: {ATTACH_MAXSIZE}
+        maxsize: {ATTACH_MAXSIZE},
+        autoUpload: {PHP.cfg.plugin.attach2.autoupload}
     };
     var attLang = {
         attachFiles: '{PHP.L.att_attach}',

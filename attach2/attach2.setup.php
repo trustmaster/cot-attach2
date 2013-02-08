@@ -8,10 +8,10 @@ Code=attach2
 Name=Attachments
 Category=files-media
 Description=Attach files to posts and pages
-Version=2.0.8
-Date=2012-11-23
+Version=2.1
+Date=2013-02-08
 Author=Trustmaster
-Copyright=(c) Vladimir Sibirov, Skuola.net and Seditio.By, 2008-2012
+Copyright=(c) Vladimir Sibirov, Skuola.net and Seditio.By, 2008-2013
 Notes=DO NOT FORGET to create a writable folder for attachments
 SQL=
 Auth_guests=R1
@@ -34,6 +34,7 @@ quality=09:string::85:JPEG quality in %
 accept=10:text:::Accepted MIME types in file selection dialog, comma separated. Empty means all types.
 filesize=11:string::4194304:Max file size in bytes
 filespace=12:string::104857600:Total file space per user
+autoupload=21:radio::0:Start uploading automatically
 imageconvert=41:radio::0:Convert all images to JPG on upload
 [END_COT_EXT_CONFIG]
 ==================== */
