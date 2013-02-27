@@ -589,23 +589,24 @@ function att_inc_count($id)
  * @param  string  $area   Target module/plugin code.
  * @param  integer $item   Target item id.
  * @param  string  $column Empty string to return full row, one of the following to return a single value: 'id', 'user', 'path', 'filename', 'ext', 'img', 'size', 'title', 'count'
- * @param  string  $mode   One of these values: 'first', 'rand' or 'last'. Defines which image is selected.
+ * @param  string  $number Attachment number within item, or one of these values: 'first', 'rand' or 'last'. Defines which image is selected.
  * @return mixed           Scalar column value, entire row as array or NULL if no attachments found.
  */
-function att_get($area, $item, $column = '', $mode = 'first')
+function att_get($area, $item, $column = '', $number = 'first')
 {
 	global $db, $db_attach;
 	static $a_cache;
-	if (!isset($a_cache[$area][$item]))
+	if (!isset($a_cache[$area][$item][$number]))
 	{
-		$order_by = $mode == 'rand' ? 'RAND()' : 'att_order';
-		if ($mode == 'last') $order_by .= ' DESC';
-		$a_cache[$area][$item] = $db->query("SELECT * FROM $db_attach
+		$order_by = $number == 'rand' ? 'RAND()' : 'att_order';
+		if ($number == 'last') $order_by .= ' DESC';
+		$offset = is_numeric($number) && $number > 1 ? ', ' . ((int)$number - 1) : '';
+		$a_cache[$area][$item][$number] = $db->query("SELECT * FROM $db_attach
 			WHERE att_area = ? AND att_item = ?
 			ORDER BY $order_by
-			LIMIT 1", array($area, (int)$item))->fetch();
+			LIMIT 1 $offset", array($area, (int)$item))->fetch();
 	}
-	return empty($column) ? $a_cache[$area][$item] : $a_cache[$area][$item]['att_' . $column];
+	return empty($column) ? $a_cache[$area][$item][$number] : $a_cache[$area][$item][$number]['att_' . $column];
 }
 
 /**
