@@ -600,11 +600,11 @@ function att_get($area, $item, $column = '', $number = 'first')
 	{
 		$order_by = $number == 'rand' ? 'RAND()' : 'att_order';
 		if ($number == 'last') $order_by .= ' DESC';
-		$offset = is_numeric($number) && $number > 1 ? ', ' . ((int)$number - 1) : '';
+		$offset = is_numeric($number) && $number > 1 ? ((int)$number - 1) . ',' : '';
 		$a_cache[$area][$item][$number] = $db->query("SELECT * FROM $db_attach
 			WHERE att_area = ? AND att_item = ?
 			ORDER BY $order_by
-			LIMIT 1 $offset", array($area, (int)$item))->fetch();
+			LIMIT $offset 1", array($area, (int)$item))->fetch();
 	}
 	return empty($column) ? $a_cache[$area][$item][$number] : $a_cache[$area][$item][$number]['att_' . $column];
 }
