@@ -1,0 +1,179 @@
+/* --------------------
+	LightZAP Theme (2.53)
+-----------------------
+	Name: Default
+	Date: 2012.12.28
+	By: Szalai Mihaly*/
+
+/* Main */
+#lightzap
+{
+	color:#fff;
+	font:normal 18px "Arial",sans-serif;
+	background:url(../../icons/bg.png);
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../icons/bg.png',sizingMethod='scale');
+	background:rgba(0,0,0,.6);
+}
+#lightzap.full-screen {background:#222;box-shadow:inset 0 0 128px #111;font-size:22px;}
+
+/* Contener */
+.lz-container
+{
+	background:url(../../icons/bg.png);
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../icons/bg.png',sizingMethod='scale');
+	background:rgba(0,0,0,.8);
+	box-shadow:0 0 64px #000;
+	margin:16px;
+	
+}
+.lz-container,.lz-image
+{
+	border-radius:.25em;
+	-moz-border-radius:.25em;
+	-ms-border-radius:.25em;
+	-o-border-radius:.25em;
+	-webkit-border-radius:.25em;
+}
+#lightzap.full-screen .lz-container
+{
+	background:transparent;
+	box-shadow:none;
+	margin:0;
+}
+#lightzap.full-screen .lz-container,#lightzap.full-screen .lz-image
+{
+	border-width:0;
+	border-radius:0;
+	-moz-border-radius:0;
+	-ms-border-radius:0;
+	-o-border-radius:0;
+	-webkit-border-radius:0;
+	position:absolute;
+}
+#lightzap.full-screen .lz-image{box-shadow:0 0 32px #000;}
+
+/* Labels */
+.lz-float
+{
+	background:url(../../icons/bg.png);
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../icons/bg.png',sizingMethod='scale');
+	background:rgba(0,0,0,.8);
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+	opacity:.8;
+	color:#fff;
+	font-weight:normal;
+	text-transform:none;
+	position:absolute;
+	padding:.25em .5em;
+}
+#lightzap.full-screen .lz-float
+{
+	padding:.35em .5em;
+	border-radius:.2em;
+	-moz-border-radius:.2em;
+	-ms-border-radius:.2em;
+	-o-border-radius:.2em;
+	-webkit-border-radius:.2em;
+}
+.lz-float:hover
+{
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	opacity:1;
+}
+/* - Caption */
+.lz-caption
+{
+	font-weight:bold;
+	top:0;
+	left:0;
+	margin:.4em;
+}
+/* - Description */
+.lz-desc
+{
+	font-size:80%;
+	font-weight:normal;
+	background:url(../../icons/bg.png);
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../icons/bg.png',sizingMethod='scale');
+	background:rgba(0,0,0,.5);
+	border-radius:.25em;
+	-moz-border-radius:.25em;
+	-ms-border-radius:.25em;
+	-o-border-radius:.25em;
+	-webkit-border-radius:.25em;
+	position:absolute;
+	top:0;
+	margin:10% 20%;
+	padding:1.5em;
+	width:60%;
+}
+/* - Number */
+.lz-number,.lz-resolution
+{
+	font-size:75%;
+	background:transparent;
+	right:0;
+	bottom:0;
+}
+/* - Author and link */
+.lz-by
+{
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+	opacity:.7;
+	font-size:75%;
+	margin:0;
+	left:0;
+	bottom:-.4px;
+}
+.lz-by,.lz-by:hover{color:#fff;}
+.lz-by span,.lz-float a{color:#2e3;}
+.lz-by:hover span,.lz-float a:hover{color:#3f5;}
+/* - Resolution */
+.lz-resolution
+{
+	display:none!important;
+	font-size:75%;
+	background:transparent;
+	right:0;
+	bottom:0;
+}
+#lightzap.full-screen .lz-resolution{display:block!important;right:0;bottom:0;}
+#lightzap.full-screen .lz-number{bottom:1.25em;}
+
+/* Buttons */
+.lz-buttonContainer
+{
+	background:transparent;
+	color:#fff;
+	font-weight:normal;
+	text-transform:none;
+	position:absolute;
+	top:2px;
+	right:2px;
+	padding:0;
+	height:32px;
+}
+#lightzap.full-screen .lz-buttonContainer
+{
+	background:url(../../icons/bg.png);
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../icons/bg.png',sizingMethod='scale');
+	background:rgba(0,0,0,.5);
+	border-radius:.2em;
+	-moz-border-radius:.2em;
+	-ms-border-radius:.2em;
+	-o-border-radius:.2em;
+	-webkit-border-radius:.2em;
+	margin:8px;
+	padding:.35em;
+}
+.lz-button
+{
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+	opacity:.8;
+	margin:4px; 
+}
+.lz-button:hover
+{
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	opacity:1;
+}
