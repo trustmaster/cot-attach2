@@ -4,6 +4,8 @@ Copyright (c) 2008-2012, Vladimir Sibirov.
 All rights reserved. Distributed under BSD License.
 =================== */
 
+$L['info_desc'] = 'Attach images and files and build galleries using pages and forum posts';
+
 $L['att_add'] = 'Add files';
 $L['att_attach'] = 'Attach files';
 $L['att_attachment'] = 'Attached file';

@@ -4,6 +4,8 @@ Copyright (c) 2008-2012, Vladimir Sibirov.
 All rights reserved. Distributed under BSD License.
 ==================== */
 
+$L['info_desc'] = 'Прикрепление изображений и файлов и создание фотогалерей на страницах и постах';
+
 $L['att_add'] = 'Добавить файлы';
 $L['att_attach'] = 'Прикрепить файлы';
 $L['att_attachment'] = 'Прикрепленный файл';
