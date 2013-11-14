@@ -1,6 +1,6 @@
 <?php defined('COT_CODE') or die('Wrong URL');
 /* ====================
-Copyright (c) 2008-2012, Vladimir Sibirov, Skuola.net and Seditio.By.
+Copyright (c) 2008-2013, Vladimir Sibirov, Skuola.net and Seditio.By.
 All rights reserved. Distributed under BSD License.
 
 [BEGIN_COT_EXT]
@@ -8,8 +8,8 @@ Code=attach2
 Name=Attachments
 Category=files-media
 Description=Attach files to posts and pages
-Version=2.1.4
-Date=2013-08-08
+Version=2.1.5
+Date=2013-11-14
 Author=Trustmaster
 Copyright=(c) Vladimir Sibirov, Skuola.net and Seditio.By, 2008-2013
 Notes=DO NOT FORGET to create a writable folder for attachments

@@ -678,146 +678,147 @@ function att_thumb($id, $width = 0, $height = 0, $frame = '')
 			. $cfg['plugin']['attach2']['prefix'] . $id
 			. '-' . $width . 'x' . $height . '-' . $frame . '.' . $row['att_ext'];
 
-		cot_thumb($orig_path, $thumb_path, $width, $height, $frame, (int) $cfg['plugin']['attach2']['quality'], (int) $cfg['plugin']['attach2']['upscale']);
+		att_cot_thumb($orig_path, $thumb_path, $width, $height, $frame, (int) $cfg['plugin']['attach2']['quality'], (int) $cfg['plugin']['attach2']['upscale']);
 	}
 
 	return $thumb_path;
 }
 
-if (!function_exists('cot_thumb'))
+/**
+ * Creates image thumbnail
+ *
+ * @param string  $source  Original image path
+ * @param string  $target  Thumbnail path
+ * @param int     $width   Thumbnail width
+ * @param int     $height  Thumbnail height
+ * @param string  $resize  Resize options: crop auto width height
+ * @param int     $quality JPEG quality in %
+ * @param boolean $upscale Upscale images smaller than thumb size
+ */
+function att_cot_thumb($source, $target, $width, $height, $resize = 'crop', $quality = 85, $upscale = false)
 {
-	// Copied from esclkm's PageMultiAvatar
+	$ext = strtolower(pathinfo($source, PATHINFO_EXTENSION));
+	list($width_orig, $height_orig) = getimagesize($source);
 
-	/**
-	 * Creates image thumbnail
-	 *
-	 * @param string  $source  Original image path
-	 * @param string  $target  Thumbnail path
-	 * @param int     $width   Thumbnail width
-	 * @param int     $height  Thumbnail height
-	 * @param string  $resize  Resize options: crop auto width height
-	 * @param int     $quality JPEG quality in %
-	 * @param boolean $upscale Upscale images smaller than thumb size
-	 */
-	function cot_thumb($source, $target, $width, $height, $resize = 'crop', $quality = 85, $upscale = false)
+	if (!$upscale && $width_orig <= $width && $height_orig <= $height)
 	{
-		$ext = strtolower(pathinfo($source, PATHINFO_EXTENSION));
-		list($width_orig, $height_orig) = getimagesize($source);
+		// Do not upscale smaller images, just copy them
+		copy($source, $target);
+		return;
+	}
 
-		if (!$upscale && $width_orig <= $width && $height_orig <= $height)
+	$x_pos = 0;
+	$y_pos = 0;
+
+	$width = (mb_substr($width, -1, 1) == '%') ? (int) ($width_orig * (int) mb_substr($width, 0, -1) / 100) : (int) $width;
+	$height = (mb_substr($height, -1, 1) == '%') ? (int) ($height_orig * (int) mb_substr($height, 0, -1) / 100) : (int) $height;
+
+	// Avoid loading images there's not enough memory for
+	if (function_exists('cot_img_check_memory') && !cot_img_check_memory($source, (int)ceil($width * $height * 4 / 1048576)))
+	{
+		return false;
+	}
+
+	if ($resize == 'crop')
+	{
+		$newimage = imagecreatetruecolor($width, $height);
+		$width_temp = $width;
+		$height_temp = $height;
+
+		if ($width_orig / $height_orig > $width / $height)
 		{
-			// Do not upscale smaller images, just copy them
-			copy($source, $target);
-			return;
-		}
-
-		$x_pos = 0;
-		$y_pos = 0;
-
-		$width = (mb_substr($width, -1, 1) == '%') ? (int) ($width_orig * (int) mb_substr($width, 0, -1) / 100) : (int) $width;
-		$height = (mb_substr($height, -1, 1) == '%') ? (int) ($height_orig * (int) mb_substr($height, 0, -1) / 100) : (int) $height;
-
-		if ($resize == 'crop')
-		{
-			$newimage = imagecreatetruecolor($width, $height);
-			$width_temp = $width;
-			$height_temp = $height;
-
-			if ($width_orig / $height_orig > $width / $height)
-			{
-				$width = $width_orig * $height / $height_orig;
-				$x_pos = -($width - $width_temp) / 2;
-				$y_pos = 0;
-			}
-			else
-			{
-				$height = $height_orig * $width / $width_orig;
-				$y_pos = -($height - $height_temp) / 2;
-				$x_pos = 0;
-			}
+			$width = $width_orig * $height / $height_orig;
+			$x_pos = -($width - $width_temp) / 2;
+			$y_pos = 0;
 		}
 		else
 		{
-			if ($resize == 'width' || $height == 0)
-			{
-				if ($width_orig > $width)
-				{
-					$height = $height_orig * $width / $width_orig;
-				}
-				else
-				{
-					$width = $width_orig;
-					$height = $height_orig;
-				}
-			}
-			elseif ($resize == 'height' || $width == 0)
-			{
-				if ($height_orig > $height)
-				{
-					$width = $width_orig * $height / $height_orig;
-				}
-				else
-				{
-					$width = $width_orig;
-					$height = $height_orig;
-				}
-			}
-			elseif ($resize == 'auto')
-			{
-				if ($width_orig < $width && $height_orig < $height)
-				{
-					$width = $width_orig;
-					$height = $height_orig;
-				}
-				else
-				{
-					if ($width_orig / $height_orig > $width / $height)
-					{
-						$height = $width * $height_orig / $width_orig;
-					}
-					else
-					{
-						$width = $height * $width_orig / $height_orig;
-					}
-				}
-			}
-
-			$newimage = imagecreatetruecolor($width, $height); //
+			$height = $height_orig * $width / $width_orig;
+			$y_pos = -($height - $height_temp) / 2;
+			$x_pos = 0;
 		}
-
-		switch ($ext)
-		{
-			case 'gif':
-				$oldimage = imagecreatefromgif($source);
-				break;
-			case 'png':
-				imagealphablending($newimage, false);
-				imagesavealpha($newimage, true);
-				$oldimage = imagecreatefrompng($source);
-				break;
-			default:
-				$oldimage = imagecreatefromjpeg($source);
-				break;
-		}
-
-		imagecopyresampled($newimage, $oldimage, $x_pos, $y_pos, 0, 0, $width, $height, $width_orig, $height_orig);
-
-		switch ($ext)
-		{
-			case 'gif':
-				imagegif($newimage, $target);
-				break;
-			case 'png':
-				imagepng($newimage, $target);
-				break;
-			default:
-				imagejpeg($newimage, $target, $quality);
-				break;
-		}
-
-		imagedestroy($newimage);
-		imagedestroy($oldimage);
 	}
+	else
+	{
+		if ($resize == 'width' || $height == 0)
+		{
+			if ($width_orig > $width)
+			{
+				$height = $height_orig * $width / $width_orig;
+			}
+			else
+			{
+				$width = $width_orig;
+				$height = $height_orig;
+			}
+		}
+		elseif ($resize == 'height' || $width == 0)
+		{
+			if ($height_orig > $height)
+			{
+				$width = $width_orig * $height / $height_orig;
+			}
+			else
+			{
+				$width = $width_orig;
+				$height = $height_orig;
+			}
+		}
+		elseif ($resize == 'auto')
+		{
+			if ($width_orig < $width && $height_orig < $height)
+			{
+				$width = $width_orig;
+				$height = $height_orig;
+			}
+			else
+			{
+				if ($width_orig / $height_orig > $width / $height)
+				{
+					$height = $width * $height_orig / $width_orig;
+				}
+				else
+				{
+					$width = $height * $width_orig / $height_orig;
+				}
+			}
+		}
+
+		$newimage = imagecreatetruecolor($width, $height); //
+	}
+
+	switch ($ext)
+	{
+		case 'gif':
+			$oldimage = imagecreatefromgif($source);
+			break;
+		case 'png':
+			imagealphablending($newimage, false);
+			imagesavealpha($newimage, true);
+			$oldimage = imagecreatefrompng($source);
+			break;
+		default:
+			$oldimage = imagecreatefromjpeg($source);
+			break;
+	}
+
+	imagecopyresampled($newimage, $oldimage, $x_pos, $y_pos, 0, 0, $width, $height, $width_orig, $height_orig);
+
+	switch ($ext)
+	{
+		case 'gif':
+			imagegif($newimage, $target);
+			break;
+		case 'png':
+			imagepng($newimage, $target);
+			break;
+		default:
+			imagejpeg($newimage, $target, $quality);
+			break;
+	}
+
+	imagedestroy($newimage);
+	imagedestroy($oldimage);
 }
 
 /**
