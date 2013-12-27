@@ -153,7 +153,7 @@
             {% } %}</td>
             <td class="name">
                 <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a><br>
-                <input type="text" name="title" class="att-edit-title" placeholder="{PHP.L.Title}" value="{%=file.title%}" data-id="{%=file.id%}">
+                <input type="text" name="title" class="att-edit-title" placeholder="{PHP.L.Title}" value="{%= typeof file.title === 'undefined' ? '' : file.title%}" data-id="{%=file.id%}">
                 {% if (window.FormData) { %}
                 <input type="file" name="replacement" class="att-replace-file" data-id="{%=file.id%}" id="att-file{%=file.id%}">
                 {% } %}

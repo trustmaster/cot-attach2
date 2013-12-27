@@ -1,10 +1,10 @@
 <?php defined('COT_CODE') or die('Wrong URL');
 /**
- * Attachments 2.0 API
+ * Attachments 2.x API
  *
  * @package Attachments
  * @author Trustmaster
- * @copyright Copyright (c) 2008-2012, Vladimir Sibirov. All rights reserved. Distributed under BSD License.
+ * @copyright Copyright (c) 2008-2013, Vladimir Sibirov. All rights reserved. Distributed under BSD License.
  */
 
 include cot_langfile('attach2', 'plug');
