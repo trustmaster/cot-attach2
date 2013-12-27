@@ -274,10 +274,8 @@ function att_ajax_handle_file_upload($uploaded_file, $name, $size, $type, $error
 				if (function_exists('exif_read_data'))
 				{
 					$exif = exif_read_data($file_path);
-					cot_watch($exif);
 					if (isset($exif['Orientation']) && !empty($exif['Orientation']) && in_array($exif['Orientation'], array(3, 6, 8)))
 					{
-						cot_watch($exif['Orientation']);
 						switch ($ext)
 						{
 							case 'gif':
@@ -316,7 +314,6 @@ function att_ajax_handle_file_upload($uploaded_file, $name, $size, $type, $error
 								imagejpeg($newimage, $file_path, 96);
 								break;
 						}
-						cot_watch('Saved');
 					}
 				}
 			}
