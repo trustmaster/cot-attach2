@@ -273,7 +273,7 @@ function att_ajax_handle_file_upload($uploaded_file, $name, $size, $type, $error
 				// Fix image orientation via EXIF if possible
 				if (function_exists('exif_read_data'))
 				{
-					$exif = exif_read_data($file_path);
+					$exif = @exif_read_data($file_path);
 					list($width, $height) = getimagesize($file_path);
 					$size_ok = function_exists('cot_img_check_memory') ? cot_img_check_memory($file_path, (int)ceil($width * $height * 4 / 1048576)) : true;
 					if ($size_ok && isset($exif['Orientation']) && !empty($exif['Orientation']) && in_array($exif['Orientation'], array(3, 6, 8)))
