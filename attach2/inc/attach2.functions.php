@@ -446,7 +446,9 @@ function att_remove_all($user_id = null, $area = null, $item_id = null)
 		unlink($row['att_path']);
 		att_remove_thumbs($row['att_id']);
 		rmdir($cfg['plugin']['attach2']['folder'] . '/_thumbs/' . $row['att_id']);
+		@rmdir($cfg['plugin']['attach2']['folder'] . '/' . $row['att_area'] . '/' . $row['att_item']);
 	}
+	@rmdir($cfg['plugin']['attach2']['folder'] . '/' . $row['att_area']);
 	$db->delete($db_attach, $where);
 
 	return $count;
